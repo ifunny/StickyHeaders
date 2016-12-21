@@ -45,11 +45,12 @@ public class MainActivity extends AppCompatActivity {
     private List<Item> compileItems() {
         List<Item> items = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            if (i % 4 == 0 && i > 0) {
-                items.add(new HeaderItem("Header at " + i, ""));
-            } else {
-                items.add(new Item("Item at " + i, "Item description at " + i));
-            }
+//            if (i % 4 == 0 && i > 0) {
+//                items.add(new HeaderItem("Header at " + i, ""));
+//            } else {
+//                items.add(new Item("Item at " + i, "Item description at " + i));
+//            }
+            items.add(new Item("Item at " + i, "Item description at " + i));
         }
         return items;
     }

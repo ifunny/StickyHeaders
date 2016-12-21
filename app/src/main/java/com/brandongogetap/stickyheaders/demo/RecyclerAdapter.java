@@ -3,6 +3,7 @@ package com.brandongogetap.stickyheaders.demo;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -31,7 +32,7 @@ final class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.BaseVie
         } else {
             viewHolder = new MyOtherViewHolder(view);
         }
-        view.setOnClickListener(new View.OnClickListener() {
+        view.setOnClickListener(new OnClickListener() {
             @Override public void onClick(View v) {
                 // This is unsafe to do in OnClickListeners attached to sticky headers. The adapter
                 // position of the holder will be out of sync if any items have been added/removed.
@@ -47,15 +48,35 @@ final class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.BaseVie
         Item item = data.get(position);
         holder.titleTextView.setText(item.title);
         holder.messageTextView.setText(item.message);
-        if (position != 0 && position % 16 == 0) {
-            holder.itemView.setPadding(0, 100, 0, 100);
-        } else {
+//        if (position != 0 && position % 16 == 0) {
+//            holder.itemView.setPadding(0, 100, 0, 100);
+//        } else {
             holder.itemView.setPadding(0, 0, 0, 0);
-        }
+//        }
         if (item instanceof StickyHeader) {
             holder.itemView.setBackgroundColor(Color.CYAN);
         } else {
             holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+        }
+
+        holder.titleTextView.setOnClickListener(new buttonClickListener(position));
+    }
+
+    private class buttonClickListener implements OnClickListener {
+
+        int position;
+
+        buttonClickListener(int i){
+            position = i;
+        }
+
+        @Override
+        public void onClick(View view) {
+            Item item = data.get(position);
+            HeaderItem newItem = new HeaderItem(item.title, item.message);
+            data.remove(position);
+            data.add(position, newItem);
+            notifyItemChanged(position);
         }
     }
 
@@ -64,9 +85,9 @@ final class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.BaseVie
     }
 
     @Override public int getItemViewType(int position) {
-        if (position != 0 && position % 16 == 0) {
-            return 1;
-        }
+//        if (position != 0 && position % 16 == 0) {
+//            return 1;
+//        }
         return 0;
     }
 
