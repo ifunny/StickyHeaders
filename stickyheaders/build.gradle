@@ -1,63 +1,30 @@
-plugins {
-    id "com.jfrog.bintray" version "1.6"
-    id "com.github.dcendents.android-maven" version "1.5"
-}
 apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
 
 repositories {
-    mavenCentral()
+	jcenter()
 }
 
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from android.sourceSets.main.java.srcDirs
-}
 
-artifacts {
-    archives sourcesJar
-}
-
-group = PROJECT_GROUP_ID
-version = PROJECT_VERSION
+group = "com.brandongogetap"
+version = "0.4.0"
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+	compileSdkVersion 24
+	buildToolsVersion "24.0.3"
 
-    defaultConfig {
-        minSdkVersion 15
-    }
+	defaultConfig {
+		minSdkVersion 16
+	}
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:$supportLibraryVersion"
-    compile "com.android.support:recyclerview-v7:$supportLibraryVersion"
-    compile "com.android.support:design:$supportLibraryVersion"
+	compile fileTree(dir: 'libs', include: ['*.jar'])
+	compile "com.android.support:appcompat-v7:24.2.1"
+	compile "com.android.support:recyclerview-v7:24.2.1"
+	compile "com.android.support:design:24.2.1"
 
-    testCompile 'junit:junit:4.12'
-    testCompile "org.mockito:mockito-core:$mockitoVersion"
-    testCompile 'org.robolectric:robolectric:3.1'
+	testCompile 'junit:junit:4.12'
+	testCompile "org.mockito:mockito-core:1.10.19"
+	testCompile 'org.robolectric:robolectric:3.1'
 }
 
-bintray {
-    Properties properties = new Properties()
-    if (file('local.properties').exists()) {
-        properties.load(new FileInputStream(file('local.properties')))
-    }
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-    configurations = ['archives']
-    pkg {
-        repo = 'android'
-        name = 'StickyHeaders'
-        userOrg = user
-        licenses = ['Apache-2.0']
-        vcsUrl = PROJECT_VCS_URL
-        version {
-            name = PROJECT_VERSION
-            desc = PROJECT_DESCRIPTION
-        }
-    }
-}
