@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-        List<Item> items = compileItems();
+        List<MyItem> items = compileItems();
         RecyclerAdapter adapter = new RecyclerAdapter(items);
         StickyLayoutManager layoutManager = new StickyLayoutManager(this, adapter);
         layoutManager.elevateHeaders(true); // Default elevation of 5dp
@@ -42,15 +42,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private List<Item> compileItems() {
-        List<Item> items = new ArrayList<>();
+    private List<MyItem> compileItems() {
+        List<MyItem> items = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-//            if (i % 4 == 0 && i > 0) {
-//                items.add(new HeaderItem("Header at " + i, ""));
-//            } else {
-//                items.add(new Item("Item at " + i, "Item description at " + i));
-//            }
-            items.add(new Item("Item at " + i, "Item description at " + i));
+            items.add(new MyItem("Item at " + i, "Item description at " + i));
         }
         return items;
     }

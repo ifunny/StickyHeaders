@@ -9,5 +9,5 @@ public interface StickyHeaderHandler {
     /**
      * @return The dataset supplied to the {@link RecyclerView.Adapter}
      */
-    List<?> getAdapterData();
+    List<? extends Item> getAdapterData();
 }

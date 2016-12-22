@@ -7,7 +7,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.brandongogetap.stickyheaders.exposed.StickyHeader;
+import com.brandongogetap.stickyheaders.exposed.Item;
 import com.brandongogetap.stickyheaders.exposed.StickyHeaderHandler;
 
 import java.util.List;
@@ -17,9 +17,9 @@ import static android.view.LayoutInflater.from;
 final class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.BaseViewHolder>
         implements StickyHeaderHandler {
 
-    private final List<Item> data;
+    private final List<MyItem> data;
 
-    RecyclerAdapter(List<Item> data) {
+    RecyclerAdapter(List<MyItem> data) {
         this.data = data;
     }
 
@@ -32,28 +32,17 @@ final class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.BaseVie
         } else {
             viewHolder = new MyOtherViewHolder(view);
         }
-        view.setOnClickListener(new OnClickListener() {
-            @Override public void onClick(View v) {
-                // This is unsafe to do in OnClickListeners attached to sticky headers. The adapter
-                // position of the holder will be out of sync if any items have been added/removed.
-                int position = viewHolder.getAdapterPosition();
-                data.remove(position);
-                notifyDataSetChanged();
-            }
-        });
         return viewHolder;
     }
 
     @Override public void onBindViewHolder(BaseViewHolder holder, int position) {
-        Item item = data.get(position);
+        MyItem item = data.get(position);
         holder.titleTextView.setText(item.title);
         holder.messageTextView.setText(item.message);
-//        if (position != 0 && position % 16 == 0) {
-//            holder.itemView.setPadding(0, 100, 0, 100);
-//        } else {
-            holder.itemView.setPadding(0, 0, 0, 0);
-//        }
-        if (item instanceof StickyHeader) {
+
+        holder.itemView.setPadding(0, 0, 0, 0);
+
+        if (item.isHeader()) {
             holder.itemView.setBackgroundColor(Color.CYAN);
         } else {
             holder.itemView.setBackgroundColor(Color.TRANSPARENT);
@@ -72,10 +61,14 @@ final class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.BaseVie
 
         @Override
         public void onClick(View view) {
-            Item item = data.get(position);
-            HeaderItem newItem = new HeaderItem(item.title, item.message);
-            data.remove(position);
-            data.add(position, newItem);
+            MyItem item = data.get(position);
+
+            if(item.isHeader()) {
+                item.setIsHeader(false);
+            } else {
+                item.setIsHeader(true);
+            }
+
             notifyItemChanged(position);
         }
     }
@@ -85,13 +78,10 @@ final class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.BaseVie
     }
 
     @Override public int getItemViewType(int position) {
-//        if (position != 0 && position % 16 == 0) {
-//            return 1;
-//        }
         return 0;
     }
 
-    @Override public List<?> getAdapterData() {
+    @Override public List<? extends Item> getAdapterData() {
         return data;
     }
 
