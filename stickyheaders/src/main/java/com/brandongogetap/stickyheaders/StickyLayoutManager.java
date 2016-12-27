@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.brandongogetap.stickyheaders.ViewRetriever.RecyclerViewRetriever;
-import com.brandongogetap.stickyheaders.exposed.Item;
 import com.brandongogetap.stickyheaders.exposed.StickyHeaderHandler;
 import com.brandongogetap.stickyheaders.exposed.StickyHeaderListener;
 
@@ -83,10 +82,8 @@ public class StickyLayoutManager extends LinearLayoutManager {
 
     private void cacheHeaderPositions() {
         headerPositions.clear();
-        for (int i = 0; i < headerHandler.getAdapterData().size(); i++) {
-            if (headerHandler.getAdapterData().get(i).isHeader()) {
-                headerPositions.add(i);
-            }
+        if(!headerHandler.getHeadersPositions().isEmpty()) {
+            headerPositions.addAll(headerHandler.getHeadersPositions());
         }
         positioner.setHeaderPositions(headerPositions);
     }
