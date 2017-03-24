@@ -143,4 +143,8 @@ public class StickyLayoutManager extends LinearLayoutManager {
         positioner.setElevateHeaders(headerElevation);
         positioner.setListener(listener);
     }
+    
+    public void setShouldUpdateHeader(boolean shouldUpdateHeader) {
+        positioner.setUpdateCurrentHeader(shouldUpdateHeader);
+    }
 }

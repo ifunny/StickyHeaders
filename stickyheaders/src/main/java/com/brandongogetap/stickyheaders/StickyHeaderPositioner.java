@@ -58,6 +58,10 @@ final class StickyHeaderPositioner {
     void setHeaderPositions(List<Integer> headerPositions) {
         this.headerPositions = headerPositions;
     }
+    
+    public void setUpdateCurrentHeader(boolean updateCurrentHeader) {
+        this.updateCurrentHeader = updateCurrentHeader;
+    }
 
     void updateHeaderState(int firstVisiblePosition, Map<Integer, View> visibleHeaders,
             ViewRetriever viewRetriever) {
