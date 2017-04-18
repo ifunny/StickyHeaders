@@ -68,7 +68,7 @@ final class StickyHeaderPositioner {
         int headerPositionToShow = getHeaderPositionToShow(
                 firstVisiblePosition, visibleHeaders.get(firstVisiblePosition));
         View headerToCopy = visibleHeaders.get(headerPositionToShow);
-        if (headerPositionToShow != lastBoundPosition || updateCurrentHeader) {
+        if (headerPositionToShow != lastBoundPosition) {
             if (headerPositionToShow == INVALID_POSITION) {
                 dirty = true;
                 safeDetachHeader();
@@ -81,14 +81,21 @@ final class StickyHeaderPositioner {
                 attachHeader(viewHolder, headerPositionToShow);
                 lastBoundPosition = headerPositionToShow;
             }
-        } else if (checkMargins) {
-            /**
-             * This could still be our firstVisiblePosition even if another view is visible above it.
-             * See {@link #getHeaderPositionToShow(int, View)} for explanation.
-             */
-            if (headerAwayFromEdge(headerToCopy)) {
-                detachHeader(lastBoundPosition);
-                lastBoundPosition = INVALID_POSITION;
+        } else {
+            if (checkMargins) {
+                /**
+                 * This could still be our firstVisiblePosition even if another view is visible above it.
+                 * See {@link #getHeaderPositionToShow(int, View)} for explanation.
+                 */
+                if (headerAwayFromEdge(headerToCopy)) {
+                    detachHeader(lastBoundPosition);
+                    lastBoundPosition = INVALID_POSITION;
+                }
+            }
+            
+            if(updateCurrentHeader) {
+                recyclerView.getAdapter().onBindViewHolder(viewRetriever.getViewHolderForPosition(headerPositionToShow), headerPositionToShow);
+	            updateCurrentHeader = false;
             }
         }
         checkHeaderPositions(visibleHeaders);
