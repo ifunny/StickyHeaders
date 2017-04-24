@@ -69,6 +69,7 @@ final class StickyHeaderPositioner {
                 firstVisiblePosition, visibleHeaders.get(firstVisiblePosition));
         View headerToCopy = visibleHeaders.get(headerPositionToShow);
         if (headerPositionToShow != lastBoundPosition) {
+            updateCurrentHeader = false;
             if (headerPositionToShow == INVALID_POSITION) {
                 dirty = true;
                 safeDetachHeader();
