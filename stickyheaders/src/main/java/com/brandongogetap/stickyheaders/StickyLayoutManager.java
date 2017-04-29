@@ -1,3 +1,4 @@
+//@formatter:off
 package com.brandongogetap.stickyheaders;
 
 import android.content.Context;
@@ -145,6 +146,8 @@ public class StickyLayoutManager extends LinearLayoutManager {
     }
     
     public void setShouldUpdateHeader(boolean shouldUpdateHeader) {
-        positioner.setUpdateCurrentHeader(shouldUpdateHeader);
+        if (positioner != null) {
+            positioner.setUpdateCurrentHeader(shouldUpdateHeader);
+        }
     }
 }
