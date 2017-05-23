@@ -202,11 +202,15 @@ final class StickyHeaderPositioner {
     @VisibleForTesting
     void attachHeader(RecyclerView.ViewHolder viewHolder, int headerPosition) {
         if (currentViewHolder == viewHolder) {
-            callDetach(lastBoundPosition);
-            //noinspection unchecked
-            recyclerView.getAdapter().onBindViewHolder(currentViewHolder, headerPosition);
-            callAttach(headerPosition);
-            updateCurrentHeader = false;
+            
+            if (headerPosition > lastBoundPosition) {
+                callDetach(lastBoundPosition);
+                //noinspection unchecked
+                recyclerView.getAdapter().onBindViewHolder(currentViewHolder, headerPosition);
+                callAttach(headerPosition);
+                updateCurrentHeader = false;
+            }
+            
             return;
         }
         detachHeader(lastBoundPosition);
