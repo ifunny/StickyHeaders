@@ -105,6 +105,12 @@ final class StickyHeaderPositioner {
                 checkElevation();
             }
         });
+        
+        if (visibleHeaders.isEmpty() && !headerPositions.isEmpty()) {
+            if (listener != null) {
+                listener.allHeadersInvisible();
+            }
+        }
     }
 
     // This checks visible headers and their positions to determine if the sticky header needs
