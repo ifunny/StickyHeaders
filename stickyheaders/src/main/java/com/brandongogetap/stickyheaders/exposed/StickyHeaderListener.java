@@ -43,4 +43,6 @@ public interface StickyHeaderListener {
      * @param adapterPosition The position in the adapter data set that the header view was created from when originally bound
      */
     void headerDetached(View headerView, int adapterPosition);
+    
+    void allHeadersInvisible();
 }
