@@ -106,7 +106,7 @@ final class StickyHeaderPositioner {
             }
         });
         
-        if (visibleHeaders.isEmpty() && !headerPositions.isEmpty()) {
+        if (visibleHeaders.isEmpty() && !headerPositions.isEmpty() && currentHeader == null) {
             if (listener != null) {
                 listener.allHeadersInvisible();
             }
